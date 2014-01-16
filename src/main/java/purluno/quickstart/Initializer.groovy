@@ -29,6 +29,7 @@ class Initializer implements WebApplicationInitializer {
 				prefix = ""
 				suffix = ".ftl"
 				contentType = "text/html; charset=UTF-8"
+				requestContextAttribute = "rc"
 			}
 		}
 		def dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext))
