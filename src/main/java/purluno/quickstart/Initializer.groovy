@@ -12,13 +12,14 @@ import org.springframework.web.context.ContextLoaderListener
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 import org.springframework.web.context.support.GenericWebApplicationContext
 import org.springframework.web.servlet.DispatcherServlet
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 class Initializer implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		def rootContext = new GenericWebApplicationContext()
+		def rootContext = new GenericWebApplicationContext(servletContext)
 		new ClassPathBeanDefinitionScanner(rootContext).scan(this.class.package.name)
 		new GroovyBeanDefinitionReader(rootContext).beans {
 			freemarkerConfig(FreeMarkerConfigurer) {
@@ -32,6 +33,9 @@ class Initializer implements WebApplicationInitializer {
 				requestContextAttribute = "rc"
 			}
 		}
+		new ResourceHandlerRegistry(rootContext, servletContext)
+			.addResourceHandler("/resources/**")
+			.addResourceLocations("/resources/")
 		def dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext))
 		dispatcher.loadOnStartup = 1
 		dispatcher.addMapping("/")
