@@ -8,22 +8,33 @@
 	<th>내용</th>
 </tr>
 </thead>
-<tr>
-	<td>홍길동</td>
-	<td>2014-01-01</td>
-	<td>가나다라마</td>
-</tr>
+<#if items?size == 0>
+	<tr>
+		<td colspan="3">메모가 없습니다.</td>
+	</tr>
+<#else>
+	<#list items as item>
+		<tr>
+			<td>${item.author?html}</td>
+			<td>${item.writtenDate?string("yyyy-MM-dd HH:mm:ss")}</td>
+			<td>
+				${item.body?html}
+				<input type="button" value="삭제" onclick="deleteItem(${item.id?js_string?html})">
+			</td>
+		</tr>
+	</#list>
+</#if>
 </table>
 
-<form>
+<form method="post" action="add">
 <table>
 <tr>
 	<th>작성자</th>
-	<td><input type="text"></td>
+	<td><input type="text" name="author"></td>
 </tr>
 <tr>
 	<th>내용</th>
-	<td><textarea></textarea></td>
+	<td><textarea name="body"></textarea></td>
 </tr>
 <tr>
 	<td colspan="2">
@@ -32,5 +43,11 @@
 </tr>
 </table>
 </form>
+
+<script type="text/javascript">
+function deleteItem(id) {
+	location.href = '${rc.contextPath}/memo/delete?id=' + id;
+}
+</script>
 </#assign>
 <#include "/layout.ftl">

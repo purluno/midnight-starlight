@@ -15,6 +15,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean
 import org.springframework.web.WebApplicationInitializer
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 import org.springframework.web.context.support.GenericWebApplicationContext
+import org.springframework.web.filter.CharacterEncodingFilter
 import org.springframework.web.servlet.DispatcherServlet
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
@@ -23,12 +24,18 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 class Initializer implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
+		def encodingFilter = new CharacterEncodingFilter()
+		encodingFilter.encoding = "UTF-8"
+		servletContext.addFilter("encodingFilter", encodingFilter)
+			.addMappingForUrlPatterns(null, false, "/*")
+
 		def rootContext = new AnnotationConfigWebApplicationContext()
 		rootContext.servletContext = servletContext
 		rootContext.register(AppConfig)
 		new ResourceHandlerRegistry(rootContext, servletContext)
 			.addResourceHandler("/resources/**")
 			.addResourceLocations("/resources/")
+			
 		def dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext))
 		dispatcher.loadOnStartup = 1
 		dispatcher.addMapping("/")

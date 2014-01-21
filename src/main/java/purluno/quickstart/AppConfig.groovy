@@ -13,6 +13,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+/**
+ * 스프링 컨텍스트 설정 클래스. 일반적인 XML 설정을 대체한다.
+ * 
+ * @author 송영환
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableWebMvc
