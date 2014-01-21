@@ -10,6 +10,7 @@
 <a href="${rc.contextPath}/">처음 화면</a>
 <a href="${rc.contextPath}/dice">주사위</a>
 <a href="${rc.contextPath}/seasons">계절</a>
+<a href="${rc.contextPath}/memo/list">메모</a>
 </div>
 <hr>
 <div id="main">
