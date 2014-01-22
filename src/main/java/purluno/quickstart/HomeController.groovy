@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod
 
 @Controller
 class HomeController {
-	static SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-	
 	static Random random = new Random()
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	String home(Model model) {
 		model.addAllAttributes([
-			datetime: dateformat.format(new Date())
+			date: new Date()
 		])
 		return "home"
 	}
