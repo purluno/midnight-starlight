@@ -1,3 +1,4 @@
+<#-- /memo/list에 대한 뷰 -->
 <#assign mainDiv>
 <h2>메모</h2>
 <table>
