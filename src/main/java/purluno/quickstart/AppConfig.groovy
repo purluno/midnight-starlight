@@ -1,10 +1,19 @@
 package purluno.quickstart
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.SimpleAccountRealm
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager
+import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.hibernate.SessionFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.orm.hibernate4.HibernateTransactionManager
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder
 import org.springframework.transaction.PlatformTransactionManager;
@@ -62,5 +71,52 @@ class AppConfig {
 		def tm = new HibernateTransactionManager()
 		tm.sessionFactory = sessionFactory()
 		tm
+	}
+	
+	@Bean
+	def shiroFilter() {
+		def f = new ShiroFilterFactoryBean()
+		f.securityManager = securityManager()
+//		f.loginUrl = "/login.jsp"
+//		f.successUrl = "/home.jsp"
+//		f.unauthorizedUrl = "/unauthorized.jsp"
+//		f.filters = [
+//			anAlias: someFilter()
+//		]
+		f.filterChainDefinitionMap = [
+			"/admin/**": "authc, roles[admin]",
+			"/docs/**": "authc, perms[document:read]",
+//			"/**": "authc"
+		]
+		f
+	}
+	
+	@Bean
+	def securityManager() {
+		def m = new DefaultWebSecurityManager(myRealm())
+	}
+	
+	@Bean
+	def lifecycleBeanPostProcessor() {
+		new LifecycleBeanPostProcessor()
+	}
+	
+	@Bean
+	def myRealm() {
+		def r = new SimpleAccountRealm("myRealm")
+		r.addAccount("john", "john100", "guest")
+		r.addAccount("alice", "alice100", "admin")
+		r
+	}
+	
+	@Bean @DependsOn("lifecycleBeanPostProcessor")
+	def defaultAdvisorAutoProxyCreator() {
+		new DefaultAdvisorAutoProxyCreator()
+	}
+	
+	@Bean
+	def authorizationAttributeSourceAdvisor() {
+		def a = new AuthorizationAttributeSourceAdvisor()
+		a.securityManager = securityManager()
 	}
 }

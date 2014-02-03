@@ -77,5 +77,10 @@
   		<artifactId>commons-dbcp</artifactId>
   		<version>1.4</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.apache.shiro</groupId>
+  		<artifactId>shiro-spring</artifactId>
+  		<version>1.2.2</version>
+  	</dependency>
   </dependencies>
 </project>
