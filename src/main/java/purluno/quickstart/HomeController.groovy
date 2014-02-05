@@ -18,7 +18,7 @@ class HomeController {
 		])
 		return "home"
 	}
-	
+
 	@RequestMapping(value = "/dice", method = RequestMethod.GET)
 	String dice(Model model) {
 		model.addAllAttributes([
