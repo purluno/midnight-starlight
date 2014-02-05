@@ -3,9 +3,9 @@ package purluno.quickstart.securitySample
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.DisabledAccountException
-import org.apache.shiro.authc.ExpiredCredentialsException;
+import org.apache.shiro.authc.ExpiredCredentialsException
 import org.apache.shiro.authc.IncorrectCredentialsException
 import org.apache.shiro.authc.UnknownAccountException
 import org.springframework.stereotype.Controller
@@ -16,6 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod
 @Controller
 @RequestMapping("securitySample")
 class SecuritySampleController {
+	@RequestMapping(value = "adminOnly", method = RequestMethod.GET)
+	String adminOnly() {
+		"securitySample/adminOnly"
+	}
+
+	@RequestMapping(value = "allowAnonymous", method = RequestMethod.GET)
+	String anonymousOnly() {
+		"securitySample/allowAnonymous"
+	}
+
+	@RequestMapping(value = "forKnown", method = RequestMethod.GET)
+	String forKnown() {
+		"securitySample/forKnown"
+	}
+
 	@RequestMapping(value = "intro", method = RequestMethod.GET)
 	String intro() {
 		"securitySample/intro"
@@ -52,10 +67,17 @@ class SecuritySampleController {
 		model.addAttribute("loginFailure", loginFailure)
 		"redirect:/securitySample/intro"
 	}
-
-	@RequestMapping(value = "logout", method = [RequestMethod.GET, RequestMethod.POST])
-	String logout() {
-		SecurityUtils.subject.logout()
+	
+	/**
+	 * 실제 로그인 폼이 있는 intro 페이지로 리다이렉트한다.
+	 */
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	String loginGet() {
 		"redirect:/securitySample/intro"
+	}
+	
+	@RequestMapping(value = "unauthorized", method = RequestMethod.GET)
+	String unauthorized() {
+		"securitySample/unauthorized"
 	}
 }

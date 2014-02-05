@@ -1,27 +1,26 @@
 package purluno.quickstart
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.shiro.realm.Realm;
+import org.apache.commons.dbcp.BasicDataSource
 import org.apache.shiro.realm.SimpleAccountRealm
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
+import org.apache.shiro.web.filter.authc.LogoutFilter
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager
-import org.apache.shiro.web.servlet.AbstractShiroFilter;
-import org.hibernate.SessionFactory;
+import org.hibernate.SessionFactory
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
 import org.springframework.orm.hibernate4.HibernateTransactionManager
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.annotation.EnableTransactionManagement
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 
 /**
  * 스프링 컨텍스트 설정 클래스. 일반적인 XML 설정을 대체한다.
@@ -92,16 +91,26 @@ class AppConfig {
 		f.securityManager = securityManager()
 		f.loginUrl = "/securitySample/login"
 		f.successUrl = "/securitySample/intro"
-		f.unauthorizedUrl = "/securitySample/intro"
-//		f.filters = [
-//			anAlias: someFilter()
-//		]
+		f.unauthorizedUrl = "/securitySample/unauthorized"
+		f.filters = [
+			logout: logoutFilter()
+		]
 		f.filterChainDefinitionMap = [
-			"/admin/**": "authc, roles[admin]",
-			"/docs/**": "authc, perms[document:read]",
+			"/securitySample/adminOnly": "authc, roles[admin]",
+			"/securitySample/allowAnonymous": "anon",
+			"/securitySample/forKnown": "authc",
+			"/securitySample/intro": "anon",
 			"/securitySample/login": "authc",
+			"/securitySample/logout": "logout",
 //			"/**": "authc"
 		]
+		f
+	}
+	
+	@Bean
+	def logoutFilter() {
+		def f = new LogoutFilter()
+		f.redirectUrl = "/securitySample/intro"
 		f
 	}
 	

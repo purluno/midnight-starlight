@@ -2,6 +2,7 @@ package purluno.quickstart.memo
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.hibernate.SessionFactory
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

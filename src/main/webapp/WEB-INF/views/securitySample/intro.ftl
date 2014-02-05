@@ -37,7 +37,7 @@
 <h3>테스트용 페이지</h3>
 
 <ul>
-	<li><a href="${rc.contextPath}/securitySample/anonymousOnly">로그인 안한 사람 전용 페이지</a>
+	<li><a href="${rc.contextPath}/securitySample/allowAnonymous">로그인 안한 사람도 들어갈 수 있는 페이지</a>
 	<li><a href="${rc.contextPath}/securitySample/forKnown">로그인한 사람 전용 페이지(관리자 포함)</a>
 	<li><a href="${rc.contextPath}/securitySample/adminOnly">관리자 전용 페이지</a>
 </ul>
