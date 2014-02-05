@@ -19,6 +19,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -33,12 +34,24 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @ComponentScan(basePackageClasses=AppConfig)
 class AppConfig {
 	@Bean
+	def shiroInterceptor() {
+		new ShiroInterceptor()
+	}
+
+	@Bean
+	def requestMappingHandlerMapping() {
+		def m = new RequestMappingHandlerMapping()
+		m.interceptors = [shiroInterceptor()]
+		m
+	}
+
+	@Bean
 	FreeMarkerConfigurer freeMarkerConfigurer() {
 		def fmc = new FreeMarkerConfigurer()
 		fmc.templateLoaderPath = "/WEB-INF/views/"
 		fmc
 	}
-	
+
 	@Bean
 	FreeMarkerViewResolver viewResolver() {
 		def vr = new FreeMarkerViewResolver()
@@ -77,15 +90,16 @@ class AppConfig {
 	def shiroFilter() {
 		def f = new ShiroFilterFactoryBean()
 		f.securityManager = securityManager()
-//		f.loginUrl = "/login.jsp"
-//		f.successUrl = "/home.jsp"
-//		f.unauthorizedUrl = "/unauthorized.jsp"
+		f.loginUrl = "/securitySample/login"
+		f.successUrl = "/securitySample/intro"
+		f.unauthorizedUrl = "/securitySample/intro"
 //		f.filters = [
 //			anAlias: someFilter()
 //		]
 		f.filterChainDefinitionMap = [
 			"/admin/**": "authc, roles[admin]",
 			"/docs/**": "authc, perms[document:read]",
+			"/securitySample/login": "authc",
 //			"/**": "authc"
 		]
 		f
@@ -104,7 +118,7 @@ class AppConfig {
 	@Bean
 	def myRealm() {
 		def r = new SimpleAccountRealm("myRealm")
-		r.addAccount("john", "john100", "guest")
+		r.addAccount("john", "john100", "known-guest")
 		r.addAccount("alice", "alice100", "admin")
 		r
 	}

@@ -11,8 +11,15 @@
 <a href="${rc.contextPath}/dice">주사위</a>
 <a href="${rc.contextPath}/seasons">계절</a>
 <a href="${rc.contextPath}/memo/list">메모</a>
+<a href="${rc.contextPath}/securitySample/intro">보안 예제</a>
 </div>
 <hr>
+<#if submenuDiv??>
+	<div id="submenu">
+	${submenuDiv}
+	</div>
+	<hr>
+</#if>
 <div id="main">
 ${mainDiv}
 </div>
