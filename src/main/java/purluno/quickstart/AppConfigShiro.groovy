@@ -20,7 +20,7 @@ import org.springframework.context.annotation.DependsOn
 @Configuration
 class AppConfigShiro {
 	@Bean
-	def shiroFilter() {
+	def delegatingFilterProxy() {
 		def f = new ShiroFilterFactoryBean()
 		f.securityManager = securityManager()
 		f.loginUrl = "/securitySample/login"

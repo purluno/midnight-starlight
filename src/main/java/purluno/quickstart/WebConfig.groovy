@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.stereotype.Controller
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
@@ -15,7 +17,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
  */
 @EnableWebMvc
 @ComponentScan(basePackageClasses = WebConfig, includeFilters = @ComponentScan.Filter(Controller))
-class WebConfig {
+class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	def shiroInterceptor() {
 		new ShiroInterceptor()
@@ -44,5 +46,11 @@ class WebConfig {
 		vr.contentType = "text/html; charset=UTF-8"
 		vr.requestContextAttribute = "rc"
 		vr
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**")
+			.addResourceLocations("/resources/")
 	}
 }
