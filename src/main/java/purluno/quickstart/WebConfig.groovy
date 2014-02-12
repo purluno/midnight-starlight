@@ -3,8 +3,9 @@ package purluno.quickstart
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.stereotype.Controller
+import org.springframework.web.multipart.commons.CommonsMultipartResolver
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
@@ -46,6 +47,12 @@ class WebConfig extends WebMvcConfigurerAdapter {
 		vr.contentType = "text/html; charset=UTF-8"
 		vr.requestContextAttribute = "rc"
 		vr
+	}
+	
+	@Bean
+	def multipartResolver() {
+		new CommonsMultipartResolver(
+			maxUploadSize: 10 * 1024 * 1024, defaultEncoding: "UTF-8")
 	}
 
 	@Override
