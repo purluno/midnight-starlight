@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>빠른 시작 프로젝트</title>
-<script src="${rc.contextPath}/resources/js/jquery-1.11.0.js"></script>
+<#if env.acceptsProfiles("production")>
+	<script src="${rc.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+<#else>
+	<script src="${rc.contextPath}/resources/js/jquery-1.11.0.js"></script>
+</#if>
 </head>
 <body>
 <h1>빠른 시작 프로젝트</h1>

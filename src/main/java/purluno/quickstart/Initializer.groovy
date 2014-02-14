@@ -3,6 +3,7 @@ package purluno.quickstart
 import javax.servlet.Filter
 import javax.servlet.ServletContext
 import javax.servlet.ServletException
+import javax.servlet.ServletRegistration
 
 import org.h2.server.web.WebServlet
 import org.springframework.web.filter.CharacterEncodingFilter
@@ -16,6 +17,37 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  */
 class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	@Override
+	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+		registration.initParameters = [
+			"spring.profiles.active": "development"
+//			"spring.profiles.active": "production"
+		]
+	}
+	
+	@Override
+	protected Class[] getRootConfigClasses() {
+		[AppConfig] as Class[]
+	}
+
+	@Override
+	protected Class[] getServletConfigClasses() {
+		[WebConfig] as Class[]
+	}
+
+	@Override
+	protected Filter[] getServletFilters() {
+		[
+			new CharacterEncodingFilter(encoding: "UTF-8"),
+			new DelegatingFilterProxy(targetFilterLifecycle: true) // Apache Shiro
+		] as Filter[]
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		["/"] as String[]
+	}
+
+	@Override
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
 		super.onStartup(servletContext)
@@ -28,28 +60,5 @@ class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 //		]
 		h2c.loadOnStartup = 1
 		h2c.addMapping("/dbconsole/*")
-	}
-
-	@Override
-	protected Filter[] getServletFilters() {
-		[
-			new CharacterEncodingFilter(encoding: "UTF-8"),
-			new DelegatingFilterProxy(targetFilterLifecycle: true) // Apache Shiro
-		] as Filter[]
-	}
-
-	@Override
-	protected Class[] getRootConfigClasses() {
-		[AppConfig] as Class[]
-	}
-
-	@Override
-	protected Class[] getServletConfigClasses() {
-		[WebConfig] as Class[]
-	}
-
-	@Override
-	protected String[] getServletMappings() {
-		["/"] as String[]
 	}
 }

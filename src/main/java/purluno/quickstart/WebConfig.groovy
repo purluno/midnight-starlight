@@ -1,13 +1,16 @@
 package purluno.quickstart
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Controller
 import org.springframework.web.multipart.commons.CommonsMultipartResolver
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 
@@ -16,19 +19,20 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
  * 
  * @author 송영환
  */
+@Configuration
 @EnableWebMvc
 @ComponentScan(basePackageClasses = WebConfig, includeFilters = @ComponentScan.Filter(Controller))
 class WebConfig extends WebMvcConfigurerAdapter {
+	protected Logger logger = LoggerFactory.getLogger(WebConfig)
+	
 	@Bean
-	def shiroInterceptor() {
-		new ShiroInterceptor()
+	def modelInterceptor() {
+		new ModelInterceptor()
 	}
-
-	@Bean
-	def requestMappingHandlerMapping() {
-		def m = new RequestMappingHandlerMapping()
-		m.interceptors = [shiroInterceptor()]
-		m
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(modelInterceptor())
 	}
 
 	@Bean
