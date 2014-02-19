@@ -1,4 +1,4 @@
-package purluno.quickstart
+package purluno.starlight
 
 import org.apache.commons.dbcp.BasicDataSource
 import org.hibernate.SessionFactory

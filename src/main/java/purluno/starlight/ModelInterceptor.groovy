@@ -1,4 +1,4 @@
-package purluno.quickstart
+package purluno.starlight
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

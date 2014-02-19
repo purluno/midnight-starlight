@@ -1,4 +1,4 @@
-package purluno.quickstart.memo
+package purluno.starlight.memo
 
 import javax.annotation.Resource;
 

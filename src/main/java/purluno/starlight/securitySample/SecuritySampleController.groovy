@@ -1,4 +1,4 @@
-package purluno.quickstart.securitySample
+package purluno.starlight.securitySample
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession

@@ -1,4 +1,4 @@
-package purluno.quickstart.people
+package purluno.starlight.people
 
 import javax.persistence.CascadeType
 import javax.persistence.Entity

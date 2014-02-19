@@ -1,4 +1,4 @@
-package purluno.quickstart
+package purluno.starlight
 
 import java.text.SimpleDateFormat
 

@@ -1,4 +1,4 @@
-package purluno.quickstart.people
+package purluno.starlight.people
 
 import java.util.List
 

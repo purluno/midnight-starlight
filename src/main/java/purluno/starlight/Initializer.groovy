@@ -1,4 +1,4 @@
-package purluno.quickstart
+package purluno.starlight
 
 import javax.servlet.Filter
 import javax.servlet.ServletContext

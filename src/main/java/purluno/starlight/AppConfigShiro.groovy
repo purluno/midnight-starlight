@@ -1,4 +1,4 @@
-package purluno.quickstart
+package purluno.starlight
 
 import org.apache.shiro.realm.SimpleAccountRealm
 import org.apache.shiro.spring.LifecycleBeanPostProcessor

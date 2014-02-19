@@ -1,4 +1,4 @@
-package purluno.quickstart
+package purluno.starlight
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
