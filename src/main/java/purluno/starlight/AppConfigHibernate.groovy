@@ -22,7 +22,7 @@ class AppConfigHibernate {
 	BasicDataSource dataSource() {
 		def bds = new BasicDataSource()
 		bds.driverClassName = org.h2.Driver.name
-		bds.url = "jdbc:h2:~/.h2/quickstart;AUTO_SERVER=TRUE"
+		bds.url = "jdbc:h2:~/.h2/starlight;AUTO_SERVER=TRUE"
 		bds
 	}
 	
