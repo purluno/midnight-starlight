@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>빠른 시작 프로젝트</title>
+<title>Midnight Starlight</title>
 <#if env.acceptsProfiles("production")>
 	<script src="${rc.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
 <#else>
@@ -10,9 +10,9 @@
 </#if>
 </head>
 <body>
-<h1>빠른 시작 프로젝트</h1>
+<h1>Midnight Starlight</h1>
 <div id="menu">
-<a href="${rc.contextPath}/">처음 화면</a>
+<a href="${rc.contextPath}/">대문</a>
 <a href="${rc.contextPath}/dice">주사위</a>
 <a href="${rc.contextPath}/seasons">계절</a>
 <a href="${rc.contextPath}/memo/list">메모</a>
