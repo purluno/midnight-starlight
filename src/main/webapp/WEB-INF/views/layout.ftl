@@ -15,9 +15,6 @@
 <a href="${rc.contextPath}/">대문</a>
 <a href="${rc.contextPath}/dice">주사위</a>
 <a href="${rc.contextPath}/seasons">계절</a>
-<a href="${rc.contextPath}/memo/list">메모</a>
-<a href="${rc.contextPath}/people">사람들</a>
-<a href="${rc.contextPath}/securitySample/intro">보안 예제</a>
 <a href="${rc.contextPath}/dbconsole/">DB 콘솔</a>
 </div>
 <hr>
