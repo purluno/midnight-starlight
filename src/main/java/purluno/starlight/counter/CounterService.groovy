@@ -24,21 +24,21 @@ class DefaultCounterService implements CounterService {
 		def tc = session.get(TotalCounter, 1L) as TotalCounter
 		if (tc == null) {
 			tc = new TotalCounter()
-			tc.value = 0
+			tc.hits = 0
 			session.save(tc)
 		}
-		tc.value
+		tc.hits
 	}
 
 	@Override
 	void hit() {
 		def session = sessionFactory.currentSession
-		def hql = "update TotalCounter set value = value + 1"
+		def hql = "update TotalCounter set hits = hits + 1"
 		def n = session.createQuery(hql).executeUpdate()
 		if (n != 1) {
 			session.createQuery("delete from TotalCounter").executeUpdate()
 			def tc = new TotalCounter()
-			tc.value = 1
+			tc.hits = 1
 			session.save(tc)
 		}
 	}

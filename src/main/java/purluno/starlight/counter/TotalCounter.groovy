@@ -10,5 +10,5 @@ class TotalCounter {
 	@Id
 	Long id = 1
 	
-	Long value
+	Long hits
 }
