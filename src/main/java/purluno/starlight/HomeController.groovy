@@ -1,20 +1,26 @@
 package purluno.starlight
 
-import java.text.SimpleDateFormat
+import javax.annotation.Resource
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
+import purluno.starlight.counter.CounterService
+
 @Controller
 class HomeController {
 	static Random random = new Random()
+	
+	@Resource
+	CounterService counterService
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	String home(Model model) {
 		model.addAllAttributes([
-			date: new Date()
+			date: new Date(),
+			totalHits: counterService.totalHits
 		])
 		return "home"
 	}

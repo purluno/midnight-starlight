@@ -14,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver
 
+import purluno.starlight.counter.CounterInterceptor
+
 /**
  * Spring MVC 관련 설정.
  * 
@@ -29,10 +31,16 @@ class WebConfig extends WebMvcConfigurerAdapter {
 	def modelInterceptor() {
 		new ModelInterceptor()
 	}
+
+	@Bean
+	def counterInterceptor() {
+		new CounterInterceptor()
+	}
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(modelInterceptor())
+		registry.addInterceptor(counterInterceptor())
 	}
 
 	@Bean
