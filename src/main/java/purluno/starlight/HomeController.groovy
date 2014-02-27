@@ -20,7 +20,8 @@ class HomeController {
 	String home(Model model) {
 		model.addAllAttributes([
 			date: new Date(),
-			totalHits: counterService.totalHits
+			totalHits: counterService.totalHits,
+			todayHits: counterService.todayHits
 		])
 		return "home"
 	}

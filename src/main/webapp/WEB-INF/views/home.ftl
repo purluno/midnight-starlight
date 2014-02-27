@@ -5,6 +5,7 @@
 즐거운 시간 보내시기 바랍니다.
 <br>
 <h3>통계</h3>
-전체 방문자 수: ${totalHits}
+전체 방문자 수: ${totalHits}<br>
+오늘 방문자 수: ${todayHits}
 </#assign>
 <#include "/layout.ftl">
