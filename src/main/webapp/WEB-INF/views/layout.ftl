@@ -13,8 +13,6 @@
 <h1>Midnight Starlight</h1>
 <div id="menu">
 <a href="${rc.contextPath}/">대문</a>
-<a href="${rc.contextPath}/dice">주사위</a>
-<a href="${rc.contextPath}/seasons">계절</a>
 <a href="${rc.contextPath}/dbconsole/">DB 콘솔</a>
 </div>
 <hr>
