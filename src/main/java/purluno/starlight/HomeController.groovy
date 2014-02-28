@@ -11,8 +11,6 @@ import purluno.starlight.counter.CounterService
 
 @Controller
 class HomeController {
-	static Random random = new Random()
-	
 	@Resource
 	CounterService counterService
 
