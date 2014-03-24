@@ -27,7 +27,7 @@ class AppConfig {
 	}
 
 	@Bean
-	Twitter twitter() {
+	Twitter defaultTwitter() {
 		TwitterFactory.singleton
 	}
 }

@@ -1,6 +1,5 @@
 package purluno.starlight
 
-import org.apache.shiro.realm.SimpleAccountRealm
 import org.apache.shiro.spring.LifecycleBeanPostProcessor
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
@@ -10,6 +9,9 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
+
+import purluno.starlight.twitter.TwitterAuthToken
+import purluno.starlight.twitter.TwitterRealm
 
 
 /**
@@ -23,9 +25,9 @@ class AppConfigShiro {
 	def delegatingFilterProxy() {
 		def f = new ShiroFilterFactoryBean()
 		f.securityManager = securityManager()
-		f.loginUrl = "/securitySample/login"
-		f.successUrl = "/securitySample/intro"
-		f.unauthorizedUrl = "/securitySample/unauthorized"
+//		f.loginUrl = "/securitySample/login"
+//		f.successUrl = "/securitySample/intro"
+//		f.unauthorizedUrl = "/securitySample/unauthorized"
 		f.filters = [
 			logout: logoutFilter()
 		]
@@ -44,13 +46,13 @@ class AppConfigShiro {
 	@Bean
 	def logoutFilter() {
 		def f = new LogoutFilter()
-		f.redirectUrl = "/securitySample/intro"
+		f.redirectUrl = "/"
 		f
 	}
 	
 	@Bean
 	def securityManager() {
-		def m = new DefaultWebSecurityManager(sampleRealm())
+		def m = new DefaultWebSecurityManager(twitterRealm())
 	}
 	
 	@Bean
@@ -59,11 +61,10 @@ class AppConfigShiro {
 	}
 	
 	@Bean
-	def sampleRealm() {
-		def r = new SimpleAccountRealm("sampleRealm")
-		r.addAccount("john", "john100", "known-guest")
-		r.addAccount("alice", "alice100", "admin")
-		r
+	def twitterRealm() {
+		def realm = new TwitterRealm()
+		realm.setAuthenticationTokenClass(TwitterAuthToken)
+		realm
 	}
 	
 	@Bean @DependsOn("lifecycleBeanPostProcessor")

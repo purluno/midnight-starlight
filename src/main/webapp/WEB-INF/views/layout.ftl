@@ -18,6 +18,11 @@
 <a href="${rc.contextPath}/">대문</a>
 <a href="${rc.contextPath}/profile">프로필</a>
 <a href="${rc.contextPath}/dbconsole/">DB 콘솔</a>
+<#if subject.principal??>
+	@${subject.principal.getOAuthAccessToken().screenName}
+<#else>
+	<a href="${rc.contextPath}/sign-in-with-twitter"><img src="${rc.contextPath}/resources/images/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
+</#if>
 </div>
 <hr>
 <#if submenuDiv??>

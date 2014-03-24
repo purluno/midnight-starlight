@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
 import purluno.starlight.counter.CounterService
-import purluno.starlight.twitter.TwitterService
+import twitter4j.Twitter
 
 @Controller
 class HomeController {
@@ -16,7 +16,7 @@ class HomeController {
 	CounterService counterService
 	
 	@Resource
-	TwitterService twitterService
+	Twitter defaultTwitter
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	String home(Model model) {
@@ -24,7 +24,7 @@ class HomeController {
 			date: new Date(),
 			totalHits: counterService.totalHits,
 			todayHits: counterService.todayHits,
-			twitterTimeline: twitterService.userTimeline
+			twitterTimeline: defaultTwitter.userTimeline
 		])
 		return "home"
 	}
