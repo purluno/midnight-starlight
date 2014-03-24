@@ -16,6 +16,7 @@
 <h1>Midnight Starlight</h1>
 <div id="menu">
 <a href="${rc.contextPath}/">대문</a>
+<a href="${rc.contextPath}/profile">프로필</a>
 <a href="${rc.contextPath}/dbconsole/">DB 콘솔</a>
 </div>
 <hr>
