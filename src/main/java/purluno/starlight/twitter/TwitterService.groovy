@@ -4,14 +4,15 @@ import javax.annotation.Resource
 
 import org.springframework.stereotype.Service
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import twitter4j.Status
+import twitter4j.Twitter
 
 @Service
 class TwitterService {
 	@Resource
-	private ObjectMapper objectMapper
+	private Twitter twitter
 
-	String test() {
-		"hello"
+	List<Status> getUserTimeline() {
+		twitter.userTimeline
 	}
 }
