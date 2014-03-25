@@ -9,6 +9,11 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo
 import org.apache.shiro.realm.AuthorizingRealm
 import org.apache.shiro.subject.PrincipalCollection
 
+/**
+ * 모든 인증 시도를 허가하며 signed-guest 역할을 인가한다.
+ * 
+ * @author 송영환
+ */
 class DefaultRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
