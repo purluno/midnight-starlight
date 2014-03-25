@@ -8,9 +8,6 @@ import org.springframework.stereotype.Controller
 
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
-import twitter4j.conf.ConfigurationBuilder;
-
-import com.fasterxml.jackson.databind.ObjectMapper
 
 /**
  * 스프링 최상위 컨텍스트 설정. Hibernate 설정과 Shiro 설정을 import하고 기타 필요한 빈을 설정한다.
@@ -21,11 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 @ComponentScan(basePackageClasses = AppConfig, excludeFilters = @ComponentScan.Filter(Controller))
 @Import([AppConfigHibernate, AppConfigShiro])
 class AppConfig {
-	@Bean
-	ObjectMapper objectMapper() {
-		new ObjectMapper()
-	}
-
 	@Bean
 	Twitter defaultTwitter() {
 		TwitterFactory.singleton
