@@ -37,9 +37,14 @@ class TwitterSignInController {
 	@RequestMapping(value = "sign-in-with-twitter-callback", method = RequestMethod.GET)
 	void signInWithTwitterCallback(
 			@RequestParam(value = "oauth_verifier", defaultValue = "") String oauthVerifier,
+			@RequestParam(value = "denied", defaultValue = "") String denied,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) {
+		if (!denied.isEmpty()) {
+			WebUtils.issueRedirect(request, response, "/")
+			return
+		}
 		try {
 			Twitter twitter = session.getAttribute("twitter")
 			RequestToken token = session.getAttribute("twitter-request-token")
