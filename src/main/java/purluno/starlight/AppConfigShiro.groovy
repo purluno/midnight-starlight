@@ -5,6 +5,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
 import org.apache.shiro.web.filter.authc.LogoutFilter
+import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
 import org.springframework.context.annotation.Bean
@@ -25,22 +26,24 @@ class AppConfigShiro {
 	def delegatingFilterProxy() {
 		def f = new ShiroFilterFactoryBean()
 		f.securityManager = securityManager()
-//		f.loginUrl = "/securitySample/login"
+		f.loginUrl = "/sign-in-with-twitter"
 //		f.successUrl = "/securitySample/intro"
 //		f.unauthorizedUrl = "/securitySample/unauthorized"
 		f.filters = [
+			authc: passThruAuthenticationFilter(),
 			logout: logoutFilter()
 		]
 		f.filterChainDefinitionMap = [
-			"/securitySample/adminOnly": "authc, roles[admin]",
-			"/securitySample/allowAnonymous": "anon",
-			"/securitySample/forKnown": "authc",
-			"/securitySample/intro": "anon",
-			"/securitySample/login": "authc",
-			"/securitySample/logout": "logout",
+			"/guestbook/**": "authc, roles[signed-guest]",
+			"/logout": "logout",
 //			"/**": "authc"
 		]
 		f
+	}
+
+	@Bean
+	def passThruAuthenticationFilter() {
+		new PassThruAuthenticationFilter()
 	}
 
 	@Bean

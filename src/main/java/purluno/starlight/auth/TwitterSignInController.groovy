@@ -1,11 +1,13 @@
 package purluno.starlight.auth
 
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.UsernamePasswordToken
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -33,9 +35,10 @@ class TwitterSignInController {
 	}
 
 	@RequestMapping(value = "sign-in-with-twitter-callback", method = RequestMethod.GET)
-	String signInWithTwitterCallback(
+	void signInWithTwitterCallback(
 			@RequestParam(value = "oauth_verifier", defaultValue = "") String oauthVerifier,
 			HttpServletRequest request,
+			HttpServletResponse response,
 			HttpSession session) {
 		try {
 			Twitter twitter = session.getAttribute("twitter")
@@ -44,7 +47,7 @@ class TwitterSignInController {
 			session.removeAttribute("twitter-request-token")
 			def username = "${twitter.screenName}@twitter"
 			SecurityUtils.subject.login(new UsernamePasswordToken(username, ""))
-			"redirect:/"
+			WebUtils.redirectToSavedRequest(request, response, "/")
 		} catch (AuthenticationException e) {
 			// unexpected exception
 			logger.error("unexpected authentication exception", e)

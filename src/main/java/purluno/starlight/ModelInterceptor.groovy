@@ -33,9 +33,11 @@ class ModelInterceptor extends HandlerInterceptorAdapter implements ApplicationC
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		modelAndView.addObject("contextPath", request.contextPath)
-		modelAndView.addObject("env", applicationContext.environment)
-		modelAndView.addObject("subject", SecurityUtils.subject)
+		if (modelAndView != null) {
+			modelAndView.addObject("contextPath", request.contextPath)
+			modelAndView.addObject("env", applicationContext.environment)
+			modelAndView.addObject("subject", SecurityUtils.subject)
+		}
 	}
 
 	@Override
