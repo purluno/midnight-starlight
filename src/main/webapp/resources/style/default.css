@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+body, table {
+	font-size: 12px;
+}
+
 .twitter_retweet_message { font-weight: bold; color: #69c; }
 
 .twitter_user_screen_name { color: #888; }
