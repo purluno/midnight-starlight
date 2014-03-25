@@ -50,8 +50,11 @@ class TwitterSignInController {
 			RequestToken token = session.getAttribute("twitter-request-token")
 			twitter.getOAuthAccessToken(token, oauthVerifier)
 			session.removeAttribute("twitter-request-token")
-			def username = "${twitter.screenName}@twitter"
-			SecurityUtils.subject.login(new UsernamePasswordToken(username, ""))
+			def principal = "${twitter.screenName}@twitter"
+			SecurityUtils.subject.login(new UsernamePasswordToken(principal, ""))
+			def user = twitter.showUser(twitter.id)
+			session.setAttribute("twitterUser", user)
+			session.setAttribute("userProfileImageUrl", user.profileImageURL)
 			WebUtils.redirectToSavedRequest(request, response, "/")
 		} catch (AuthenticationException e) {
 			// unexpected exception
