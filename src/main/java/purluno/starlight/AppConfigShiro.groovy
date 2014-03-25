@@ -1,5 +1,6 @@
 package purluno.starlight
 
+import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.spring.LifecycleBeanPostProcessor
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
@@ -10,8 +11,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
 
-import purluno.starlight.twitter.TwitterAuthToken
-import purluno.starlight.twitter.TwitterRealm
+import purluno.starlight.auth.DefaultRealm
 
 
 /**
@@ -42,36 +42,36 @@ class AppConfigShiro {
 		]
 		f
 	}
-	
+
 	@Bean
 	def logoutFilter() {
 		def f = new LogoutFilter()
 		f.redirectUrl = "/"
 		f
 	}
-	
+
 	@Bean
 	def securityManager() {
-		def m = new DefaultWebSecurityManager(twitterRealm())
+		def m = new DefaultWebSecurityManager(defaultRealm())
 	}
-	
+
 	@Bean
 	def lifecycleBeanPostProcessor() {
 		new LifecycleBeanPostProcessor()
 	}
-	
+
 	@Bean
-	def twitterRealm() {
-		def realm = new TwitterRealm()
-		realm.setAuthenticationTokenClass(TwitterAuthToken)
+	def defaultRealm() {
+		def realm = new DefaultRealm()
+		realm.setAuthenticationTokenClass(UsernamePasswordToken)
 		realm
 	}
-	
+
 	@Bean @DependsOn("lifecycleBeanPostProcessor")
 	def defaultAdvisorAutoProxyCreator() {
 		new DefaultAdvisorAutoProxyCreator()
 	}
-	
+
 	@Bean
 	def authorizationAttributeSourceAdvisor() {
 		def a = new AuthorizationAttributeSourceAdvisor()

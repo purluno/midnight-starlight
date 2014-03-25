@@ -3,7 +3,7 @@
 <h3>기본 정보</h3>
 <ul>
 	<li>이름 - 송영환</li>
-	<li><img src="${rc.contextPath}/resources/images/email-address.png"></li>
+	<li><img src="${contextPath}/resources/images/email-address.png"></li>
 	<li><a href="http://purluno.egloos.com/">Blog</a></li>
 	<li><a href="https://plus.google.com/+SongYounghwan">Google+</a></li>
 	<li><a href="https://twitter.com/purluno">Twitter</a></li>

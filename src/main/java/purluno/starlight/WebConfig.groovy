@@ -57,7 +57,6 @@ class WebConfig extends WebMvcConfigurerAdapter {
 		vr.prefix = ""
 		vr.suffix = ".ftl"
 		vr.contentType = "text/html; charset=UTF-8"
-		vr.requestContextAttribute = "rc"
 		vr
 	}
 	

@@ -1,4 +1,4 @@
-package purluno.starlight
+package purluno.starlight.home
 
 import javax.annotation.Resource
 

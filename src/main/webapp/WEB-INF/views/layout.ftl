@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Midnight Starlight</title>
-<link rel="stylesheet" type="text/css" href="${rc.contextPath}/resources/style/default.css">
+<link rel="stylesheet" type="text/css" href="${contextPath}/resources/style/default.css">
 <#if env.acceptsProfiles("production")>
-	<script src="${rc.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
-	<script src="${rc.contextPath}/resources/js/autolink-min.js"></script>
+	<script src="${contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+	<script src="${contextPath}/resources/js/autolink-min.js"></script>
 <#else>
-	<script src="${rc.contextPath}/resources/js/jquery-1.11.0.js"></script>
-	<script src="${rc.contextPath}/resources/js/autolink.js"></script>
+	<script src="${contextPath}/resources/js/jquery-1.11.0.js"></script>
+	<script src="${contextPath}/resources/js/autolink.js"></script>
 </#if>
 </head>
 <body>
 <h1>Midnight Starlight</h1>
 <div id="menu">
-<a href="${rc.contextPath}/">대문</a>
-<a href="${rc.contextPath}/profile">프로필</a>
-<a href="${rc.contextPath}/dbconsole/">DB 콘솔</a>
+<a href="${contextPath}/">대문</a>
+<a href="${contextPath}/profile">프로필</a>
+<a href="${contextPath}/guestbook">방명록</a>
+<a href="${contextPath}/dbconsole/">DB 콘솔</a>
 <#if subject.principal??>
-	@${subject.principal.getOAuthAccessToken().screenName}
+	${subject.principal}
 <#else>
-	<a href="${rc.contextPath}/sign-in-with-twitter"><img src="${rc.contextPath}/resources/images/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
+	<a href="${contextPath}/sign-in-with-twitter"><img src="${contextPath}/resources/images/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
 </#if>
 </div>
 <hr>
