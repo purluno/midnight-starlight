@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
 
 import purluno.starlight.auth.DefaultRealm
+import purluno.starlight.auth.DefaultRolePermissionResolver
 
 
 /**
@@ -34,7 +35,8 @@ class AppConfigShiro {
 			logout: logoutFilter()
 		]
 		f.filterChainDefinitionMap = [
-			"/guestbook/**": "authc, roles[signed-guest]",
+			"/guestbook/add": "authc, perms[guestbook:add]",
+			"/guestbook/**": "authc, perms[guestbook:read]",
 			"/logout": "logout",
 //			"/**": "authc"
 		]
@@ -64,9 +66,15 @@ class AppConfigShiro {
 	}
 
 	@Bean
+	def defaultRolePermissionResolver() {
+		new DefaultRolePermissionResolver()
+	}
+
+	@Bean
 	def defaultRealm() {
 		def realm = new DefaultRealm()
-		realm.setAuthenticationTokenClass(UsernamePasswordToken)
+		realm.authenticationTokenClass = UsernamePasswordToken
+		realm.rolePermissionResolver = defaultRolePermissionResolver()
 		realm
 	}
 

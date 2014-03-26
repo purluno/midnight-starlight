@@ -28,8 +28,6 @@ class GuestbookController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	String add(@RequestParam String text) {
-		def subject = SecurityUtils.subject
-		subject.checkRole("signed-guest")
 		def principal = subject.principal as String
 		def item = new GuestbookItem()
 		item.authorId = principal

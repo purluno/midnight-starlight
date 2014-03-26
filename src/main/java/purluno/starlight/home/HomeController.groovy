@@ -18,7 +18,7 @@ class HomeController {
 
 	@Resource
 	CounterService counterService
-	
+
 	@Resource
 	Twitter defaultTwitter
 

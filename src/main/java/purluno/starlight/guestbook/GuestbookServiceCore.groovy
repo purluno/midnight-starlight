@@ -2,12 +2,9 @@ package purluno.starlight.guestbook
 
 import javax.annotation.Resource
 
-import org.apache.shiro.SecurityUtils
 import org.hibernate.SessionFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
-import twitter4j.Twitter
 
 @Service
 @Transactional
@@ -17,8 +14,6 @@ class GuestbookServiceCore implements GuestbookService {
 
 	@Override
 	void add(GuestbookItem item) {
-		def subject = SecurityUtils.subject
-		subject.checkRole("signed-guest")
 		def session = sessionFactory.currentSession
 		session.save(item)
 	}
