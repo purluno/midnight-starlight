@@ -29,6 +29,9 @@ class DefaultRealm extends AuthorizingRealm {
 		String principal = principals.primaryPrincipal as String
 		def user = authService.getUser(principal)
 		if (user != null) {
+			if (principal == settings.owner) {
+				user.roles += authService.prepareRole("owner")
+			}
 			new SimpleAuthorizationInfo(user.roles.collect { it.name } as Set)
 		} else {
 			new SimpleAuthorizationInfo()
@@ -43,11 +46,7 @@ class DefaultRealm extends AuthorizingRealm {
 		if (user == null) {
 			user = new User()
 			user.principal = principal
-			if (principal == settings.owner) {
-				user.roles = [authService.prepareRole("owner")] as Set
-			} else {
-				user.roles = [authService.prepareRole("signed-guest")] as Set
-			}
+			user.roles = [authService.prepareRole("signed-guest")] as Set
 			authService.addUser(user)
 		}
 		new SimpleAuthenticationInfo(principal, token.credentials, "default")
