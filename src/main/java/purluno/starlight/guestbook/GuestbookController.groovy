@@ -51,8 +51,8 @@ class GuestbookController {
 		"redirect:/guestbook"
 	}
 
-	@RequestMapping(value = "list", method = RequestMethod.GET)
-	View list(Model model,
+	@RequestMapping(value = "ajax/list.json", method = RequestMethod.GET)
+	View ajaxListJson(Model model,
 			@RequestParam(defaultValue = "0") int first,
 			@RequestParam(defaultValue = "5") int max) {
 		max = Math.min(5, max)
