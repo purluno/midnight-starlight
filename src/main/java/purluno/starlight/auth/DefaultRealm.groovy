@@ -6,18 +6,20 @@ import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.AuthenticationInfo
 import org.apache.shiro.authc.AuthenticationToken
 import org.apache.shiro.authc.SimpleAuthenticationInfo
-import org.apache.shiro.authc.UnknownAccountException
 import org.apache.shiro.authz.AuthorizationInfo
 import org.apache.shiro.authz.SimpleAuthorizationInfo
 import org.apache.shiro.realm.AuthorizingRealm
 import org.apache.shiro.subject.PrincipalCollection
 
 /**
- * 모든 인증 시도를 허가하며 새로운 접근자에 대해 signed-guest 역할을 부여한다.
+ * 인증 및 인가를 관리하는 핵심 클래스
  * 
  * @author 송영환
  */
 class DefaultRealm extends AuthorizingRealm {
+	@Resource
+	ConfigObject settings
+
 	@Resource
 	AuthService authService
 
@@ -41,7 +43,11 @@ class DefaultRealm extends AuthorizingRealm {
 		if (user == null) {
 			user = new User()
 			user.principal = principal
-			user.roles = [authService.prepareRole("signed-guest")] as Set
+			if (principal == settings.owner) {
+				user.roles = [authService.prepareRole("owner")] as Set
+			} else {
+				user.roles = [authService.prepareRole("signed-guest")] as Set
+			}
 			authService.addUser(user)
 		}
 		new SimpleAuthenticationInfo(principal, token.credentials, "default")
