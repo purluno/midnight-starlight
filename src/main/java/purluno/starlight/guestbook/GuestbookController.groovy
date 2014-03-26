@@ -9,6 +9,8 @@ import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.servlet.View
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView
 
 import purluno.starlight.auth.AuthUtils
 import twitter4j.User
@@ -47,5 +49,19 @@ class GuestbookController {
 			throw new RuntimeException("validation is failed")
 		}
 		"redirect:/guestbook"
+	}
+
+	@RequestMapping(value = "list", method = RequestMethod.GET)
+	View list(Model model,
+			@RequestParam(defaultValue = "0") int first,
+			@RequestParam(defaultValue = "5") int max) {
+		max = Math.min(5, max)
+		def items = guestbookService.getList(first, max)
+		model.addAllAttributes([
+			first: first,
+			max: max,
+			items: items
+		])
+		new MappingJackson2JsonView()
 	}
 }
