@@ -8,10 +8,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.springframework.context.ApplicationContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.web.WebAppConfiguration
+
 import twitter4j.Twitter
 
 @RunWith(SpringJUnit4ClassRunner)
@@ -19,7 +19,7 @@ import twitter4j.Twitter
 @WebAppConfiguration
 class TwitterTest {
 	@Resource
-	private Twitter twitter
+	private Twitter defaultTwitter
 
 	@Before
 	void setUp() throws Exception {
@@ -31,7 +31,7 @@ class TwitterTest {
 
 	@Test
 	void test() {
-		def respList = twitter.userTimeline
+		def respList = defaultTwitter.userTimeline
 		for (status in respList) {
 			println "$status.user.name // $status.text"
 		}
