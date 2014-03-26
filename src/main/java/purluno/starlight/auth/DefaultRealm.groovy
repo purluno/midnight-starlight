@@ -36,13 +36,14 @@ class DefaultRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
-		def user = authService.getUser(token.principal)
+		def principal = token.principal
+		def user = authService.getUser(principal)
 		if (user == null) {
 			user = new User()
-			user.principal = token.principal
+			user.principal = principal
 			user.roles = [authService.prepareRole("signed-guest")] as Set
 			authService.addUser(user)
 		}
-		new SimpleAuthenticationInfo(token.principal, token.credentials, "default")
+		new SimpleAuthenticationInfo(principal, token.credentials, "default")
 	}
 }

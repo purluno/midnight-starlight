@@ -28,14 +28,18 @@ $(function() {
 });
 </script>
 <h2>방명록</h2>
-<h3>작성하기</h3>
-<form method="post" action="${contextPath}/guestbook/add">
-	<#if userProfileImageUrl??>
-		<img src="${userProfileImageUrl}" alt="${principal}">
-	</#if>
-	<textarea name="text"></textarea>
-	<input type="submit" value="등록">
-</form>
+<#if subject.isPermitted('guestbook:add')>
+	<h3>작성하기</h3>
+	<form method="post" action="${contextPath}/guestbook/add">
+		<#if userProfileImageUrl??>
+			<img src="${userProfileImageUrl}" alt="${principal}">
+		</#if>
+		<textarea name="text"></textarea>
+		<input type="checkbox" id="hiddenFromOther" name="hiddenFromOther" value="true">
+		<label for="hiddenFromOther">주인에게만 보이게 함</label>
+		<input type="submit" value="등록">
+	</form>
+</#if>
 <h3>목록</h3>
 <div id="guestbook_list">
 </div>

@@ -27,11 +27,15 @@ class GuestbookController {
 	}
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
-	String add(@RequestParam String text) {
+	String add(
+			@RequestParam String text,
+			@RequestParam(defaultValue = "false") boolean hiddenFromOther) {
+		def subject = SecurityUtils.subject
 		def principal = subject.principal as String
 		def item = new GuestbookItem()
 		item.authorId = principal
 		item.writtenDate = new Date()
+		item.hiddenFromOther = hiddenFromOther
 		item.text = text
 		if (AuthUtils.origin(principal) == "twitter") {
 			def user = subject.session.getAttribute("twitterUser") as User

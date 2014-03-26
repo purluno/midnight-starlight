@@ -18,6 +18,8 @@ class GuestbookItem {
 
 	String authorProfileImageUrl
 
+	Boolean hiddenFromOther = false
+
 	Date writtenDate
 
 	String text
