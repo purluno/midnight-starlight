@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContextAware
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import purluno.starlight.auth.AuthUtils;
 import twitter4j.Twitter;
@@ -40,10 +41,15 @@ class ModelInterceptor extends HandlerInterceptorAdapter implements ApplicationC
 		if (modelAndView == null) {
 			return
 		}
-		if (modelAndView.view instanceof RedirectView) {
+		def view = modelAndView.view
+		def viewName = modelAndView.viewName
+		if (view == null && viewName == null) {
 			return
 		}
-		if (modelAndView.viewName?.startsWith("redirect:")) {
+		if (view != null && !(view instanceof FreeMarkerView)) {
+			return
+		}
+		if (viewName?.startsWith("redirect:")) {
 			return
 		}
 		modelAndView.addObject("contextPath", request.contextPath)
