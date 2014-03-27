@@ -11,11 +11,8 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
-
-import purluno.starlight.auth.AuthUtils;
-import twitter4j.Twitter;
+import org.springframework.web.servlet.view.AbstractTemplateView
+import org.springframework.web.servlet.view.InternalResourceView
 
 /**
  * 뷰에서 활용할 다양한 모델을 추가한다.
@@ -31,6 +28,22 @@ class ModelInterceptor extends HandlerInterceptorAdapter implements ApplicationC
 
 	private ApplicationContext applicationContext
 
+	private boolean isScreenView(ModelAndView modelAndView) {
+		if (modelAndView.view in AbstractTemplateView) {
+			true
+		} else if (modelAndView.view in InternalResourceView) {
+			true
+		} else if (modelAndView.view != null) {
+			false
+		} else if (modelAndView.viewName == null) {
+			false
+		} else if (modelAndView.viewName.startsWith("redirect:")) {
+			false
+		} else {
+			true
+		}
+	}
+
 	/**
 	 * 뷰에서 활용할 다양한 모델을 추가한다. (클래스 설명 참조)
 	 */
@@ -38,30 +51,14 @@ class ModelInterceptor extends HandlerInterceptorAdapter implements ApplicationC
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		if (modelAndView == null) {
-			return
+		if (isScreenView(modelAndView)) {
+			modelAndView.addObject("contextPath", request.contextPath)
+			modelAndView.addObject("env", applicationContext.environment)
+			def subject = SecurityUtils.subject
+			modelAndView.addObject("subject", subject)
+			modelAndView.addObject("principal", subject.principal ?: null)
+			modelAndView.addObject("userProfileImageUrl", subject.session.getAttribute("userProfileImageUrl") ?: null)
 		}
-		def view = modelAndView.view
-		def viewName = modelAndView.viewName
-		if (view == null && viewName == null) {
-			return
-		}
-		if (view != null && !(view instanceof FreeMarkerView)) {
-			return
-		}
-		if (viewName?.startsWith("redirect:")) {
-			return
-		}
-		modelAndView.addObject("contextPath", request.contextPath)
-		modelAndView.addObject("env", applicationContext.environment)
-		def subject = SecurityUtils.subject
-		modelAndView.addObject("subject", subject)
-		def principal = subject.principal
-		if (principal == null) {
-			return
-		}
-		modelAndView.addObject("principal", principal)
-		modelAndView.addObject("userProfileImageUrl", subject.session.getAttribute("userProfileImageUrl"))
 	}
 
 	@Override
