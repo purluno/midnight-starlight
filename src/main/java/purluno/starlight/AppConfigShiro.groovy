@@ -35,6 +35,7 @@ class AppConfigShiro {
 			logout: logoutFilter()
 		]
 		f.filterChainDefinitionMap = [
+			"/dashboard/**": "authc, perms[dashboard:access]",
 			"/guestbook/add": "authc, perms[guestbook:add]",
 			"/guestbook/**": "authc, perms[guestbook:read]",
 			"/logout": "logout",
