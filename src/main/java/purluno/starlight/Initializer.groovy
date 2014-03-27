@@ -10,6 +10,8 @@ import org.springframework.web.filter.CharacterEncodingFilter
 import org.springframework.web.filter.DelegatingFilterProxy
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer
 
+import purluno.starlight.accesslog.AccessLogFilter
+
 /**
  * web.xml을 대신하여 웹 애플리케이션 설정 및 초기화를 수행하는 클래스.
  * 
@@ -23,7 +25,7 @@ class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 //			"spring.profiles.active": "production"
 		]
 	}
-	
+
 	@Override
 	protected Class[] getRootConfigClasses() {
 		[AppConfig] as Class[]

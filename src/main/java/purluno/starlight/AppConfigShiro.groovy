@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
 
+import purluno.starlight.accesslog.AccessLogFilter
+import purluno.starlight.accesslog.LogoutLogFilter
 import purluno.starlight.auth.DefaultRealm
 import purluno.starlight.auth.DefaultRolePermissionResolver
 
@@ -32,14 +34,16 @@ class AppConfigShiro {
 //		f.unauthorizedUrl = "/securitySample/unauthorized"
 		f.filters = [
 			authc: passThruAuthenticationFilter(),
-			logout: logoutFilter()
+			log: accessLogFilter(),
+			logout: logoutFilter(),
+			logoutLog: logoutLogFilter()
 		]
 		f.filterChainDefinitionMap = [
-			"/dashboard/**": "authc, perms[dashboard:access]",
-			"/guestbook/add": "authc, perms[guestbook:add]",
-			"/guestbook/**": "authc, perms[guestbook:read]",
-			"/logout": "logout",
-//			"/**": "authc"
+			"/dashboard/**": "log, authc, perms[dashboard:access]",
+			"/guestbook/add": "log, authc, perms[guestbook:add]",
+			"/guestbook/**": "log, authc, perms[guestbook:read]",
+			"/logout": "log, logoutLog, logout",
+			"/**": "log"
 		]
 		f
 	}
@@ -50,10 +54,20 @@ class AppConfigShiro {
 	}
 
 	@Bean
+	def accessLogFilter() {
+		new AccessLogFilter()
+	}
+
+	@Bean
 	def logoutFilter() {
 		def f = new LogoutFilter()
 		f.redirectUrl = "/"
 		f
+	}
+
+	@Bean
+	def logoutLogFilter() {
+		new LogoutLogFilter()
 	}
 
 	@Bean

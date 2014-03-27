@@ -27,13 +27,21 @@ class AuthServiceCore implements AuthService {
 	}
 
 	Role getRole(String name) {
-		def session = sessionFactory.currentSession
-		session.get(Role, name)
+		if (name == null) {
+			null
+		} else {
+			def session = sessionFactory.currentSession
+			session.get(Role, name)
+		}
 	}
 
 	User getUser(String principal) {
-		def session = sessionFactory.currentSession
-		session.get(User, principal)
+		if (principal == null) {
+			null
+		} else {
+			def session = sessionFactory.currentSession
+			session.get(User, principal)
+		}
 	}
 
 	Role prepareRole(String name) {
