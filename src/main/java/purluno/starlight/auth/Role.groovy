@@ -28,6 +28,8 @@ class Role {
 			false
 		} else if (this.is(obj)) {
 			true
+		} else if (name == null) {
+			false
 		} else {
 			(obj in Role && this.name == obj.name)
 		}
