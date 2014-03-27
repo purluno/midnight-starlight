@@ -5,6 +5,8 @@ import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
 
+import org.springframework.util.ObjectUtils;
+
 @Entity
 class Role {
 	@Id
@@ -14,4 +16,20 @@ class Role {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	Set<String> permissions
+
+	@Override
+	int hashCode() {
+		name.hashCode()
+	}
+
+	@Override
+	boolean equals(Object obj) {
+		if (obj == null) {
+			false
+		} else if (this.is(obj)) {
+			true
+		} else {
+			(obj in Role && this.name == obj.name)
+		}
+	}
 }
