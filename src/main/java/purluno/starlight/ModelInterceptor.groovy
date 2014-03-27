@@ -29,7 +29,9 @@ class ModelInterceptor extends HandlerInterceptorAdapter implements ApplicationC
 	private ApplicationContext applicationContext
 
 	private boolean isScreenView(ModelAndView modelAndView) {
-		if (modelAndView.view in AbstractTemplateView) {
+		if (modelAndView == null) {
+			false
+		} else if (modelAndView.view in AbstractTemplateView) {
 			true
 		} else if (modelAndView.view in InternalResourceView) {
 			true
