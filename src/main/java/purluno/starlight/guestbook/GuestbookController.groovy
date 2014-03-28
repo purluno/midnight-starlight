@@ -23,7 +23,7 @@ class GuestbookController {
 
 	@RequestMapping("")
 	String root(Model model) {
-		"guestbook/root"
+		"guestbook/index"
 	}
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
