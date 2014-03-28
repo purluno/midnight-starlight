@@ -106,8 +106,6 @@ class AppConfigShiro {
 
 	@Bean
 	AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor() {
-		def a = new AuthorizationAttributeSourceAdvisor()
-		a.securityManager = securityManager()
-		a
+		new AuthorizationAttributeSourceAdvisor()
 	}
 }
