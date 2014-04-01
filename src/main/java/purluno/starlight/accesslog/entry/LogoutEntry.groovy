@@ -11,4 +11,9 @@ import purluno.starlight.auth.User
 class LogoutEntry extends AccessEntry {
 	@ManyToOne
 	User user
+
+	@Override
+	String getType() {
+		"로그아웃"
+	}
 }

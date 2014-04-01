@@ -13,4 +13,9 @@ class LoginAttemptEntry extends AccessEntry {
 	User targetUser
 
 	String principal
+
+	@Override
+	String getType() {
+		"로그인 시도"
+	}
 }

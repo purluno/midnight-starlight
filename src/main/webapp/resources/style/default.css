@@ -9,3 +9,12 @@ body, table {
 .twitter_user_screen_name { color: #888; }
 
 .twitter_status_text {}
+
+table.accesslog {
+	border-collapse: collapse;
+}
+
+table.accesslog td, table.accesslog th {
+	border: 1px solid #000;
+	padding: 3px;
+}

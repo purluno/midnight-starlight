@@ -23,4 +23,8 @@ class AccessEntry {
 	Date when = new Date()
 
 	String description
+
+	String getType() {
+		"접근"
+	}
 }

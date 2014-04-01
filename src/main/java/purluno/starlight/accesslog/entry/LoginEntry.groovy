@@ -11,4 +11,9 @@ import purluno.starlight.auth.User
 class LoginEntry extends AccessEntry {
 	@ManyToOne
 	User user
+
+	@Override
+	String getType() {
+		"로그인"
+	}
 }

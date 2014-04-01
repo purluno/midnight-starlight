@@ -1,5 +1,7 @@
 package purluno.starlight.accesslog
 
+import java.util.List
+
 import purluno.starlight.accesslog.entry.AccessEntry
 import purluno.starlight.accesslog.entry.DailyVisitEntry
 import purluno.starlight.accesslog.entry.LoginAttemptEntry
@@ -7,11 +9,14 @@ import purluno.starlight.accesslog.entry.LoginEntry
 import purluno.starlight.accesslog.entry.LogoutEntry
 import purluno.starlight.accesslog.entry.RequestEntry
 import purluno.starlight.accesslog.entry.SessionStartEntry
+import purluno.starlight.util.PagedResult
 
 interface AccessLogService {
 	AccessEntry access()
 
 	AccessEntry access(String description)
+
+	long count()
 
 	DailyVisitEntry dailyVisit()
 
@@ -22,6 +27,8 @@ interface AccessLogService {
 	AccessEntry getLatestEntryOfSession(String sessionId)
 
 	SessionInfo getSessionInfo()
+
+	List<AccessEntry> list(int first, int max)
 
 	LoginEntry login()
 
@@ -34,6 +41,8 @@ interface AccessLogService {
 	LogoutEntry logout()
 
 	LogoutEntry logout(String description)
+
+	PagedResult<AccessEntry> pagedResult(int page)
 
 	RequestEntry request(String method, String url)
 

@@ -4,7 +4,9 @@ import javax.annotation.Resource
 
 import org.apache.shiro.SecurityUtils
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Order
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
 
 import purluno.starlight.accesslog.entry.AccessEntry
@@ -15,11 +17,14 @@ import purluno.starlight.accesslog.entry.LogoutEntry
 import purluno.starlight.accesslog.entry.RequestEntry
 import purluno.starlight.accesslog.entry.SessionStartEntry
 import purluno.starlight.auth.AuthService
-import purluno.starlight.auth.User
+import purluno.starlight.util.PageIterator
+import purluno.starlight.util.PagedResult
 
 @Service("accessLogService")
 @Transactional
 class AccessLogServiceCore implements AccessLogService {
+	static final int PAGE_SIZE = 20
+
 	@Resource
 	SessionFactory sessionFactory
 
@@ -49,6 +54,13 @@ class AccessLogServiceCore implements AccessLogService {
 			id: session.id,
 			user: authService.getUser(subject.principal),
 			host: session.host)
+	}
+
+	@Override
+	long count() {
+		def hibSession = sessionFactory.currentSession
+		def hql = "select count(*) from AccessEntry"
+		hibSession.createQuery(hql).uniqueResult() as long
 	}
 
 	@Override
@@ -103,6 +115,16 @@ order by entry.when desc, entry.id desc
 	}
 
 	@Override
+	List<AccessEntry> list(int first, int max) {
+		def hibSession = sessionFactory.currentSession
+		hibSession.createCriteria(AccessEntry)
+			.setFirstResult(first).setMaxResults(max)
+			.addOrder(Order.desc("when")).addOrder(Order.desc("id"))
+			.createCriteria("sessionInfo")
+			.list()
+	}
+
+	@Override
 	LoginEntry login() {
 		login("")
 	}
@@ -152,6 +174,18 @@ order by entry.when desc, entry.id desc
 		hibSession.save(e)
 		setLatestEntryForSession(e)
 		e
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	PagedResult<AccessEntry> pagedResult(int page) {
+		def pr = new PagedResult()
+		pr.pageSize = PAGE_SIZE
+		pr.requestedPage = page
+		pr.totalCount = count()
+		pr.result = list(pr.first, pr.pageSize)
+		pr.setPageIterator(pr.actualPage - 10, pr.actualPage + 10)
+		pr
 	}
 
 	@Override

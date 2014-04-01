@@ -15,4 +15,9 @@ class RequestEntry extends AccessEntry {
 
 	@ManyToOne
 	User user
+
+	@Override
+	String getType() {
+		"요청"
+	}
 }
